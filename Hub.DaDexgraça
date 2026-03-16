@@ -1,219 +1,217 @@
 local LINK = "https://link-target.net/4303447/wRgmdGA2ASL4"
 local KEY = "Martinez-Nbknbks2wdasggasd"
 
-local gui = Instance.new("ScreenGui", game.CoreGui)
+local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
 
--- BLUR SUAVE
-local blur = Instance.new("BlurEffect", game.Lighting)
-blur.Size = 20
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.CoreGui
 
--- LOADING ANIMADO
-local loading = Instance.new("Frame", gui)
-loading.Size = UDim2.new(0,300,0,70)
-loading.Position = UDim2.new(0.5,-150,0.5,-35)
-loading.BackgroundColor3 = Color3.fromRGB(15,15,15)
-Instance.new("UICorner", loading)
+-- BLUR
+local blur = Instance.new("BlurEffect")
+blur.Parent = game.Lighting
+blur.Size = 18
 
-local txt = Instance.new("TextLabel", loading)
-txt.Size = UDim2.new(1,0,0.5,0)
-txt.Position = UDim2.new(0,0,0,0)
-txt.BackgroundTransparency = 1
-txt.Text = "Loading Martinez HUB..."
-txt.Font = Enum.Font.GothamBold
-txt.TextColor3 = Color3.new(1,1,1)
-txt.TextScaled = true
-
-local barbg = Instance.new("Frame", loading)
-barbg.Size = UDim2.new(0.9,0,0.2,0)
-barbg.Position = UDim2.new(0.05,0,0.65,0)
-barbg.BackgroundColor3 = Color3.fromRGB(30,30,30)
-Instance.new("UICorner", barbg)
-
-local bar = Instance.new("Frame", barbg)
-bar.Size = UDim2.new(0,0,1,0)
-Instance.new("UICorner", bar)
-
-for i=1,100 do
-	bar.Size = UDim2.new(i/100,0,1,0)
-	bar.BackgroundColor3 = Color3.fromHSV((tick()%5)/5,1,1)
-	task.wait(0.01)
-end
-loading:Destroy()
-
--- FRAME PRINCIPAL
-local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(0,430,0,260)
-frame.Position = UDim2.new(0.5,-215,0.5,-130)
-frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
-Instance.new("UICorner", frame)
-
--- ANIMAÇÃO DE ABERTURA (FADE + SLIDE)
-frame.Position = UDim2.new(0.5,-215,-1,0)
+-- FRAME
+local frame = Instance.new("Frame")
+frame.Parent = gui
+frame.Size = UDim2.new(0,520,0,230)
+frame.Position = UDim2.new(0.5,-260,-0.5,0)
+frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
 frame.BackgroundTransparency = 1
-local tweenService = game:GetService("TweenService")
-local tweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-local tween = tweenService:Create(frame, tweenInfo, {Position = UDim2.new(0.5,-215,0.5,-130), BackgroundTransparency = 0})
-tween:Play()
+frame.BorderSizePixel = 0
 
--- RGB BORDER
-local stroke = Instance.new("UIStroke", frame)
-stroke.Thickness = 3
-task.spawn(function()
-	while true do
-		stroke.Color = Color3.fromHSV((tick()%5)/5,1,1)
-		task.wait()
-	end
-end)
+local corner = Instance.new("UICorner")
+corner.Parent = frame
+corner.CornerRadius = UDim.new(0,18)
 
--- BACKGROUND IMAGE
-local bg = Instance.new("ImageLabel", frame)
-bg.Size = UDim2.new(1,0,1,0)
-bg.BackgroundTransparency = 1
-bg.ImageTransparency = 0.7
-bg.Image = "rbxassetid://13146769055"
-
--- TITLE RGB
-local title = Instance.new("TextLabel", frame)
-title.Size = UDim2.new(1,0,0,40)
+-- TITLE
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.Size = UDim2.new(1,0,0,60)
 title.BackgroundTransparency = 1
 title.Text = "Martinez HUB"
 title.Font = Enum.Font.GothamBlack
-title.TextSize = 30
-task.spawn(function()
-	while true do
-		title.TextColor3 = Color3.fromHSV((tick()%5)/5,1,1)
-		task.wait()
-	end
-end)
+title.TextColor3 = Color3.new(1,1,1)
+title.TextSize = 44
 
--- TEXTBOX
-local box = Instance.new("TextBox", frame)
-box.Size = UDim2.new(0.8,0,0,35)
-box.Position = UDim2.new(0.1,0,0.4,0)
-box.PlaceholderText = "Enter Key..."
-box.BackgroundColor3 = Color3.fromRGB(25,25,25)
+-- DESC
+local desc = Instance.new("TextLabel")
+desc.Parent = frame
+desc.Size = UDim2.new(1,0,0,20)
+desc.Position = UDim2.new(0,0,0,55)
+desc.BackgroundTransparency = 1
+desc.Text = "🔑 Enter your key to continue."
+desc.Font = Enum.Font.Gotham
+desc.TextColor3 = Color3.fromRGB(180,180,180)
+desc.TextSize = 16
+
+-- KEY BOX
+local box = Instance.new("TextBox")
+box.Parent = frame
+box.Size = UDim2.new(0.85,0,0,50)
+box.Position = UDim2.new(0.075,0,0.45,0)
+box.BackgroundColor3 = Color3.fromRGB(40,40,40)
+box.BackgroundTransparency = 0.25
+box.PlaceholderText = "🔑 Enter Key"
+box.Text = ""
 box.TextColor3 = Color3.new(1,1,1)
 box.Font = Enum.Font.Gotham
-Instance.new("UICorner", box)
+box.TextSize = 18
 
--- BUTTONS
-local get = Instance.new("TextButton", frame)
-get.Size = UDim2.new(0.35,0,0,35)
-get.Position = UDim2.new(0.1,0,0.7,0)
-get.Text = "Get Key"
-get.Font = Enum.Font.GothamBold
-get.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", get)
+local boxCorner = Instance.new("UICorner")
+boxCorner.Parent = box
+boxCorner.CornerRadius = UDim.new(0,14)
 
-local confirm = Instance.new("TextButton", frame)
-confirm.Size = UDim2.new(0.35,0,0,35)
-confirm.Position = UDim2.new(0.55,0,0.7,0)
-confirm.Text = "Confirm"
-confirm.Font = Enum.Font.GothamBold
-confirm.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", confirm)
+local boxStroke = Instance.new("UIStroke")
+boxStroke.Parent = box
+boxStroke.Color = Color3.fromRGB(100,100,100)
+boxStroke.Transparency = 0.4
 
--- RGB BUTTONS
-task.spawn(function()
-	while true do
-		local c = Color3.fromHSV((tick()%5)/5,1,1)
-		get.BackgroundColor3 = c
-		confirm.BackgroundColor3 = c
-		task.wait()
-	end
+-- BUTTON FUNCTION
+local function createButton(text,xpos)
+
+	local btn = Instance.new("TextButton")
+	btn.Parent = frame
+	btn.Size = UDim2.new(0.25,0,0,42)
+	btn.Position = UDim2.new(xpos,0,0.76,0)
+	btn.Text = text
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 16
+	btn.TextColor3 = Color3.new(1,1,1)
+	btn.BackgroundColor3 = Color3.fromRGB(45,45,45)
+	btn.BackgroundTransparency = 0.25
+	btn.BorderSizePixel = 0
+
+	local corner = Instance.new("UICorner")
+	corner.Parent = btn
+	corner.CornerRadius = UDim.new(0,14)
+
+	local stroke = Instance.new("UIStroke")
+	stroke.Parent = btn
+	stroke.Color = Color3.fromRGB(120,120,120)
+	stroke.Transparency = 0.5
+
+	return btn
+end
+
+local exit = createButton("🚪 Exit",0.1)
+local get = createButton("🔑 Get Key",0.375)
+local submit = createButton("✅ Submit",0.65)
+
+-- OPEN ANIMATION
+TweenService:Create(
+	frame,
+	TweenInfo.new(0.7,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),
+	{
+		Position = UDim2.new(0.5,-260,0.5,-115),
+		BackgroundTransparency = 0.15
+	}
+):Play()
+
+-- HOVER EFFECT
+local function hover(btn)
+
+	btn.MouseEnter:Connect(function()
+
+		TweenService:Create(
+			btn,
+			TweenInfo.new(0.15),
+			{BackgroundTransparency = 0.1}
+		):Play()
+
+	end)
+
+	btn.MouseLeave:Connect(function()
+
+		TweenService:Create(
+			btn,
+			TweenInfo.new(0.15),
+			{BackgroundTransparency = 0.25}
+		):Play()
+
+	end)
+
+end
+
+hover(exit)
+hover(get)
+hover(submit)
+
+-- TEXTBOX EFFECT
+box.Focused:Connect(function()
+	box.BackgroundTransparency = 0.15
 end)
 
--- CLICK SOUND
-local sound = Instance.new("Sound", gui)
-sound.SoundId = "rbxassetid://276097676"
-sound.Volume = 0.7
+box.FocusLost:Connect(function()
+	box.BackgroundTransparency = 0.25
+end)
+
+-- BUTTON ACTIONS
+exit.MouseButton1Click:Connect(function()
+	gui:Destroy()
+	blur:Destroy()
+end)
 
 get.MouseButton1Click:Connect(function()
 	setclipboard(LINK)
-	sound:Play()
 end)
 
--- SALVAR KEY AUTOMATICAMENTE
-local success = false
-confirm.MouseButton1Click:Connect(function()
-	sound:Play()
+submit.MouseButton1Click:Connect(function()
+
 	if box.Text == KEY then
-		success = true
-		-- salva key para não digitar de novo
-		pcall(function() writefile("MartinezHUB_KEY.txt", KEY) end)
+
+		pcall(function()
+			writefile("MartinezKey.txt",KEY)
+		end)
+
 		gui:Destroy()
 		blur:Destroy()
+
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Martinezxx7/hub.lua/refs/heads/main/Hub%2CMtnz"))()
+
 	else
-		box.Text = "Wrong Key!"
+		box.Text = "❌ Wrong Key!"
 	end
-end)
 
--- NEON PARTICLES
-local p = Instance.new("ParticleEmitter", frame)
-p.Texture = "rbxassetid://243660364"
-p.Rate = 8
-p.Lifetime = NumberRange.new(3,5)
-p.Speed = NumberRange.new(10,20)
-p.Size = NumberSequence.new(2)
-p.Transparency = NumberSequence.new(0.4)
-
--- SNOW
-local snow = Instance.new("ParticleEmitter", frame)
-snow.Texture = "rbxassetid://6160764487"
-snow.Rate = 12
-snow.Lifetime = NumberRange.new(4,6)
-snow.Speed = NumberRange.new(15,25)
-snow.Acceleration = Vector3.new(0,-5,0)
-snow.Size = NumberSequence.new(2)
-
--- MINIMIZE BUTTON
-local minimize = Instance.new("TextButton", frame)
-minimize.Size = UDim2.new(0,30,0,30)
-minimize.Position = UDim2.new(1,-35,0,5)
-minimize.Text = "-"
-minimize.Font = Enum.Font.GothamBold
-minimize.TextColor3 = Color3.new(1,1,1)
-Instance.new("UICorner", minimize)
-local minimized = false
-minimize.MouseButton1Click:Connect(function()
-	if minimized then
-		frame.Size = UDim2.new(0,430,0,260)
-		minimized = false
-	else
-		frame.Size = UDim2.new(0,200,0,40)
-		minimized = true
-	end
 end)
 
 -- DRAG
-local UIS = game:GetService("UserInputService")
 local dragging
 local dragStart
 local startPos
 
 frame.InputBegan:Connect(function(input)
+
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
 		dragging = true
 		dragStart = input.Position
 		startPos = frame.Position
 	end
+
 end)
 
 UIS.InputChanged:Connect(function(input)
+
 	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+
 		local delta = input.Position - dragStart
+
 		frame.Position = UDim2.new(
 			startPos.X.Scale,
 			startPos.X.Offset + delta.X,
 			startPos.Y.Scale,
 			startPos.Y.Offset + delta.Y
 		)
+
 	end
+
 end)
 
 UIS.InputEnded:Connect(function(input)
+
 	if input.UserInputType == Enum.UserInputType.MouseButton1 then
 		dragging = false
 	end
+
 end)
