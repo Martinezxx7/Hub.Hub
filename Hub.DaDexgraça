@@ -1,0 +1,219 @@
+local LINK = "https://link-target.net/4303447/wRgmdGA2ASL4"
+local KEY = "Martinez-Nbknbks2wdasggasd"
+
+local gui = Instance.new("ScreenGui", game.CoreGui)
+
+-- BLUR SUAVE
+local blur = Instance.new("BlurEffect", game.Lighting)
+blur.Size = 20
+
+-- LOADING ANIMADO
+local loading = Instance.new("Frame", gui)
+loading.Size = UDim2.new(0,300,0,70)
+loading.Position = UDim2.new(0.5,-150,0.5,-35)
+loading.BackgroundColor3 = Color3.fromRGB(15,15,15)
+Instance.new("UICorner", loading)
+
+local txt = Instance.new("TextLabel", loading)
+txt.Size = UDim2.new(1,0,0.5,0)
+txt.Position = UDim2.new(0,0,0,0)
+txt.BackgroundTransparency = 1
+txt.Text = "Loading Martinez HUB..."
+txt.Font = Enum.Font.GothamBold
+txt.TextColor3 = Color3.new(1,1,1)
+txt.TextScaled = true
+
+local barbg = Instance.new("Frame", loading)
+barbg.Size = UDim2.new(0.9,0,0.2,0)
+barbg.Position = UDim2.new(0.05,0,0.65,0)
+barbg.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Instance.new("UICorner", barbg)
+
+local bar = Instance.new("Frame", barbg)
+bar.Size = UDim2.new(0,0,1,0)
+Instance.new("UICorner", bar)
+
+for i=1,100 do
+	bar.Size = UDim2.new(i/100,0,1,0)
+	bar.BackgroundColor3 = Color3.fromHSV((tick()%5)/5,1,1)
+	task.wait(0.01)
+end
+loading:Destroy()
+
+-- FRAME PRINCIPAL
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0,430,0,260)
+frame.Position = UDim2.new(0.5,-215,0.5,-130)
+frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+Instance.new("UICorner", frame)
+
+-- ANIMAÇÃO DE ABERTURA (FADE + SLIDE)
+frame.Position = UDim2.new(0.5,-215,-1,0)
+frame.BackgroundTransparency = 1
+local tweenService = game:GetService("TweenService")
+local tweenInfo = TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+local tween = tweenService:Create(frame, tweenInfo, {Position = UDim2.new(0.5,-215,0.5,-130), BackgroundTransparency = 0})
+tween:Play()
+
+-- RGB BORDER
+local stroke = Instance.new("UIStroke", frame)
+stroke.Thickness = 3
+task.spawn(function()
+	while true do
+		stroke.Color = Color3.fromHSV((tick()%5)/5,1,1)
+		task.wait()
+	end
+end)
+
+-- BACKGROUND IMAGE
+local bg = Instance.new("ImageLabel", frame)
+bg.Size = UDim2.new(1,0,1,0)
+bg.BackgroundTransparency = 1
+bg.ImageTransparency = 0.7
+bg.Image = "rbxassetid://13146769055"
+
+-- TITLE RGB
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1,0,0,40)
+title.BackgroundTransparency = 1
+title.Text = "Martinez HUB"
+title.Font = Enum.Font.GothamBlack
+title.TextSize = 30
+task.spawn(function()
+	while true do
+		title.TextColor3 = Color3.fromHSV((tick()%5)/5,1,1)
+		task.wait()
+	end
+end)
+
+-- TEXTBOX
+local box = Instance.new("TextBox", frame)
+box.Size = UDim2.new(0.8,0,0,35)
+box.Position = UDim2.new(0.1,0,0.4,0)
+box.PlaceholderText = "Enter Key..."
+box.BackgroundColor3 = Color3.fromRGB(25,25,25)
+box.TextColor3 = Color3.new(1,1,1)
+box.Font = Enum.Font.Gotham
+Instance.new("UICorner", box)
+
+-- BUTTONS
+local get = Instance.new("TextButton", frame)
+get.Size = UDim2.new(0.35,0,0,35)
+get.Position = UDim2.new(0.1,0,0.7,0)
+get.Text = "Get Key"
+get.Font = Enum.Font.GothamBold
+get.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", get)
+
+local confirm = Instance.new("TextButton", frame)
+confirm.Size = UDim2.new(0.35,0,0,35)
+confirm.Position = UDim2.new(0.55,0,0.7,0)
+confirm.Text = "Confirm"
+confirm.Font = Enum.Font.GothamBold
+confirm.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", confirm)
+
+-- RGB BUTTONS
+task.spawn(function()
+	while true do
+		local c = Color3.fromHSV((tick()%5)/5,1,1)
+		get.BackgroundColor3 = c
+		confirm.BackgroundColor3 = c
+		task.wait()
+	end
+end)
+
+-- CLICK SOUND
+local sound = Instance.new("Sound", gui)
+sound.SoundId = "rbxassetid://276097676"
+sound.Volume = 0.7
+
+get.MouseButton1Click:Connect(function()
+	setclipboard(LINK)
+	sound:Play()
+end)
+
+-- SALVAR KEY AUTOMATICAMENTE
+local success = false
+confirm.MouseButton1Click:Connect(function()
+	sound:Play()
+	if box.Text == KEY then
+		success = true
+		-- salva key para não digitar de novo
+		pcall(function() writefile("MartinezHUB_KEY.txt", KEY) end)
+		gui:Destroy()
+		blur:Destroy()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/Martinezxx7/hub.lua/refs/heads/main/Hub%2CMtnz"))()
+	else
+		box.Text = "Wrong Key!"
+	end
+end)
+
+-- NEON PARTICLES
+local p = Instance.new("ParticleEmitter", frame)
+p.Texture = "rbxassetid://243660364"
+p.Rate = 8
+p.Lifetime = NumberRange.new(3,5)
+p.Speed = NumberRange.new(10,20)
+p.Size = NumberSequence.new(2)
+p.Transparency = NumberSequence.new(0.4)
+
+-- SNOW
+local snow = Instance.new("ParticleEmitter", frame)
+snow.Texture = "rbxassetid://6160764487"
+snow.Rate = 12
+snow.Lifetime = NumberRange.new(4,6)
+snow.Speed = NumberRange.new(15,25)
+snow.Acceleration = Vector3.new(0,-5,0)
+snow.Size = NumberSequence.new(2)
+
+-- MINIMIZE BUTTON
+local minimize = Instance.new("TextButton", frame)
+minimize.Size = UDim2.new(0,30,0,30)
+minimize.Position = UDim2.new(1,-35,0,5)
+minimize.Text = "-"
+minimize.Font = Enum.Font.GothamBold
+minimize.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", minimize)
+local minimized = false
+minimize.MouseButton1Click:Connect(function()
+	if minimized then
+		frame.Size = UDim2.new(0,430,0,260)
+		minimized = false
+	else
+		frame.Size = UDim2.new(0,200,0,40)
+		minimized = true
+	end
+end)
+
+-- DRAG
+local UIS = game:GetService("UserInputService")
+local dragging
+local dragStart
+local startPos
+
+frame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = frame.Position
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local delta = input.Position - dragStart
+		frame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+end)
+
+UIS.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
